@@ -76,7 +76,7 @@ def reduce_resource_limit(beverage):
         resources["water"] = resources["water"] - beverages[beverage]["ingredients"]["water"]
         resources["coffee"] = resources["coffee"] - beverages[beverage]["ingredients"]["coffee"]
         resources["money"] = resources["money"] - beverages[beverage]["cost"]
-    elif check_machine_resources(beverage)[0] and beverage == "latte" or beverage == "cappuccino":
+    elif check_machine_resources(beverage)[0] and (beverage == "latte" or beverage == "cappuccino"):
         resources["water"] = resources["water"] - beverages[beverage]["ingredients"]["water"]
         resources["coffee"] = resources["coffee"] - beverages[beverage]["ingredients"]["coffee"]
         resources["milk"] = resources["milk"] - beverages[beverage]["ingredients"]["milk"]

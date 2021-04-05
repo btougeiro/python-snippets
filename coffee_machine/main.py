@@ -23,7 +23,7 @@ Money:\t${resources['money']:.2f}"""
 
 def check_machine_resources(beverage):
     """
-    Check if all the resources are sufficient to make a beverage
+    Check if all the resources are sufficient to make a beverage.
     """
     if beverage == "espresso":
         if (
@@ -85,7 +85,7 @@ def reduce_resource_limit(beverage):
 
 def check_change():
     """
-    Check if there is some change after preparing a beverage
+    Check if there is some change after preparing a beverage.
     """
     if resources["money"] > 0:
         return True

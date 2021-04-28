@@ -1,2 +1,3 @@
 # python-snippets
-short snippets of python code
+
+Short snippets of python code

@@ -6,7 +6,7 @@ US_STATES = 50
 
 screen = turtle.Screen()
 screen.title("U.S. States Game")
-image = f"{os.getcwd()}\image.gif"
+image = f"{os.getcwd()}\\image.gif"
 screen.addshape(image)
 turtle.shape(image)
 
@@ -16,7 +16,10 @@ all_states = data.state.to_list()
 guessed_states = []
 
 while len(guessed_states) < US_STATES:
-    answer_state = screen.textinput(title=f"{len(guessed_states)}/50 Guess the State", prompt="What's another state's name?").title()
+    answer_state = screen.textinput(
+        title=f"{len(guessed_states)}/50 Guess the State",
+        prompt="What's another state's name?"
+    ).title()
 
     if answer_state == "Exit":
         missing_states = []

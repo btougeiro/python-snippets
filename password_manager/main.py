@@ -2,6 +2,7 @@ import tkinter
 from tkinter import messagebox
 from random import choice, randint, shuffle
 import pyperclip
+import json
 
 FONT = ("Courier", 11, "bold")
 
@@ -35,20 +36,49 @@ def generate_password():
 
 def save():
 
+    json_data = {
+        entry_website.get(): {
+            "Email": entry_email.get(),
+            "Password": entry_password.get(),
+        }
+    }
+
     if entry_website.get() == "" or entry_password.get() == "":
         messagebox.showwarning(title="Oops", message="Please don't leave any fields empty!")
     else:
-        is_ok = messagebox.askokcancel(
-            title=entry_website.get(),
-            message=f"These are the details entered: \nEmail: {entry_email.get()} \nPassword: {entry_password.get()} \nIs it OK to save?"
-        )
+        try:
+            with open(file="data.json", mode="r") as data_file:
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open(file="data.json", mode="w") as data_file:
+                json.dump(json_data, data_file, indent=4)
+        else:
+            data.update(json_data)
+            with open(file="data.json", mode="w") as data_file:
+                json.dump(data, data_file, indent=4)
+        finally:
+            entry_website.delete(0, tkinter.END)
+            entry_password.delete(0, tkinter.END)
+            entry_website.focus()
 
-        if is_ok:
-            with open(file="data.txt", mode="a") as data_file:
-                data_file.write(f"{entry_website.get()} | {entry_email.get()} | {entry_password.get()}\n")
-                entry_website.delete(0, tkinter.END)
-                entry_password.delete(0, tkinter.END)
-                entry_website.focus()
+## search
+
+def search():
+    website = entry_website.get()
+    try:
+        with open(file="data.json", mode="r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showerror(title="Password Manager", message="No Data File Found!")
+    else:
+        if website in data:
+            email = data[website]["Email"]
+            password = data[website]["Password"]
+            messagebox.showinfo(title="Password Manager", message=f"Website: {website}\nEmail: {email}\nPassword: {password}")
+        elif website == "":
+            messagebox.showwarning(title="Password Manager", message="Please, provide some information before search!")
+        else:            
+            messagebox.showerror(title="Password Manager", message=f"No details for {website} exists!")
 
 ## canvas
 
@@ -70,9 +100,9 @@ label_password.grid(row=3, column=0)
 
 ## entry
 
-entry_website = tkinter.Entry(width=40, font=FONT)
+entry_website = tkinter.Entry(width=22, font=FONT)
 entry_website.focus()
-entry_website.grid(row=1, column=1, columnspan=2)
+entry_website.grid(row=1, column=1)
 
 entry_email = tkinter.Entry(width=40, font=FONT)
 entry_email.insert(0, "test@email.com")
@@ -82,6 +112,9 @@ entry_password = tkinter.Entry(width=22, font=FONT)
 entry_password.grid(row=3, column=1)
 
 ## button
+
+button_serach = tkinter.Button(text="Search", font=FONT, width=17, command=search)
+button_serach.grid(row=1, column=2)
 
 button_generate_password = tkinter.Button(text="Generate Password", font=FONT, width=17, command=generate_password)
 button_generate_password.grid(row=3, column=2)

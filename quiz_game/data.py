@@ -3,10 +3,11 @@ import html
 
 API_URL = "https://opentdb.com/api.php"
 
+
 class QuestionData:
 
     def __init__(self):
-        self.api_parameters = { "amount": 10, "type": "boolean" }
+        self.api_parameters = {"amount": 10, "type": "boolean"}
         self.response = requests.get(url=API_URL, params=self.api_parameters)
         self.response.raise_for_status()
         self.question_data = self.response.json()["results"]

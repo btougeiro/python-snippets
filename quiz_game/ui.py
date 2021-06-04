@@ -8,10 +8,20 @@ CANVAS_WIDTH = 300
 CANVAS_HEIGHT = 300
 FONT = ("Arial", 20, "italic")
 
+
+def create_questions() -> list:
+    question_bank = []
+    question_data = QuestionData().get_question_data()
+    for question in question_data:
+        q = Question(question["question"], question["correct_answer"])
+        question_bank.append(q)
+    return question_bank
+
+
 class QuizInterface:
 
     def __init__(self):
-        self.question_bank = self.create_questions()
+        self.question_bank = create_questions()
         self.quiz_brain = QuizBrain(self.question_bank)
 
         # window
@@ -62,14 +72,6 @@ class QuizInterface:
             self.button_false.config(state="disabled")
             self.button_refresh.config(state="active")
 
-    def create_questions(self) -> list:
-        question_bank = []
-        question_data = QuestionData().get_question_data()
-        for question in question_data:
-            q = Question(question["question"], question["correct_answer"])
-            question_bank.append(q)
-        return question_bank
-
     def true_pressed(self):
         is_right = self.quiz_brain.check_answer("True")
         self.give_feedback(is_right)
@@ -82,7 +84,7 @@ class QuizInterface:
         self.button_refresh.config(state="disabled")
         self.button_true.config(state="active")
         self.button_false.config(state="active")
-        self.question_bank = self.create_questions()
+        self.question_bank = create_questions()
         self.quiz_brain = QuizBrain(self.question_bank)
         self.get_next_question()
 

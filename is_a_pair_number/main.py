@@ -8,3 +8,13 @@ def is_a_pair(numbers):
     return {num for num in numbers if numbers.count(num) > 2}
 
 print(is_a_pair([3,3,9,3,7,7,7,9]))
+
+"""
+output -> {3, 7}
+"""
+
+print(is_a_pair([9,3,9,3,7,7,9]))
+
+"""
+output -> {9}
+"""
